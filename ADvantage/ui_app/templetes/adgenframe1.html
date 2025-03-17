@@ -1,0 +1,147 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/adstyle1.css' %}"
+    />
+  </head>
+  <body>
+    <main class="generate-home">
+      <header class="header">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/31245c260512d27975a8915bb3952f9ffb927a2ba4b6dbf7e87708b7179ecb18?placeholderIfAbsent=true&apiKey=36335822f6be424f851adb745f9574f9"
+          alt="Logo"
+          class="logo"
+        />
+        <nav class="nav-menu">
+          <span class="nav-item active">Generate</span>
+          <span class="nav-item">History</span>
+          <span class="nav-item">Account</span>
+        </nav>
+        <div class="user-controls">
+          <div class="user-toggle">
+            <button class="toggle-btn active">User</button>
+            <button class="toggle-btn">Admin</button>
+          </div>
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/647022f4aa7569d0e97dd6c4892abed130ac0e52dcde0805db5eea950c08f2e3?placeholderIfAbsent=true&apiKey=36335822f6be424f851adb745f9574f9"
+            alt="Settings"
+            class="settings-icon"
+          />
+        </div>
+      </header>
+
+      <div class="main-content">
+        <div class="form-section">
+          <section class="generate-form">
+            <h1>Generate a campaign post</h1>
+
+            <div class="pricing-options">
+              <div class="price-tag active">
+                <span>Post:</span>
+                <span>₹ 50.00</span>
+              </div>
+              <div class="price-tag">
+                <span>Blog:</span>
+                <span>₹ 100.00</span>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="input-group">
+              <label class="top2-input">Product / Topic</label>
+              <div class="input-field">
+                <input
+                  type="text"
+                  placeholder="Add a product, event, campaign"
+                />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="top2-input">Description</label>
+              <div class="input-field">
+                <textarea
+                  placeholder="Add a date, time, location or anything else"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="two-columns">
+              <div class="input-group lang">
+                <label class="top2-input">Select language</label>
+                <select class="input-field options">
+                  <option>English</option>
+                  <option>Hindi</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label class="top2-input">Zipcode</label>
+                <div class="input-field">
+                  <input type="text" placeholder="Add a zipcode" />
+                </div>
+              </div>
+            </div>
+
+            <div class="toggle-section">
+              <span>Include hashtags</span>
+              <div class="toggle-switch">
+                <input type="checkbox" id="hashtags" checked />
+                <label for="hashtags"></label>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="label-group">
+                <label>Company name</label>
+                <span class="optional">Optional</span>
+              </div>
+              <div class="input-field">
+                <input type="text" placeholder="Add company name" />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="label-group">
+                <label>Company website</label>
+                <span class="optional">Optional</span>
+              </div>
+              <div class="input-field">
+                <input type="text" placeholder="Add company website" />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="illustration-section">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/30b408011d20858d78c96c60cecb1cd244e2da45f22c62ec9289df695345a1ff?placeholderIfAbsent=true&apiKey=36335822f6be424f851adb745f9574f9"
+            alt="Campaign illustration"
+            class="main-illustration"
+          />
+          <h2>Create impactful posts for your campaigns using our AI Labs</h2>
+          <button class="generate-btn">Generate post</button>
+          <p class="ai-info">
+            Our AI technology uses high-efficiency LLM models which ensures
+            meaningful text generation.
+          </p>
+        </div>
+      </div>
+    </main>
+    <script type="text/javascript" src="{% static 'js/adjava1.js' %}"></script>
+  </body>
+</html>

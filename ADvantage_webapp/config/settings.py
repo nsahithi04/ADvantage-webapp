@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ADvantage.ui_app',
+    'ADvantage_webapp.ui_app',
 ]
 
 MIDDLEWARE = [
@@ -50,8 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ADvantage.urls'
-
+ROOT_URLCONF = 'ADvantage_webapp.config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -74,7 +73,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ui_app/static'),
 ]
 
-WSGI_APPLICATION = 'ADvantage.wsgi.application'
+WSGI_APPLICATION = 'ADvantage_webapp.config.wsgi.application'
 
 
 # Database

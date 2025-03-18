@@ -1,0 +1,403 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Quicksand";
+  font-weight: 500;
+  font-size: 17px;
+  background-color: white;
+  color: #0f172a;
+}
+
+/* Main container */
+.generate-home {
+  zoom: 0.8;
+  position: relative; /* adjust the zoom value as needed */
+  background-color: white;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5rem;
+  width: 100%;
+  font-size: 1.125rem;
+  white-space: nowrap;
+  background-color: rgb(250 250 249);
+}
+
+.logo {
+  object-fit: contain;
+  width: 142px;
+  aspect-ratio: 4.18;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  font-weight: 500;
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-item.active {
+  font-weight: 700;
+}
+
+.user-controls {
+  display: flex;
+  gap: 2.5rem;
+  font-weight: 600;
+}
+
+.user-toggle {
+  display: flex;
+  /* gap: 1rem; */
+  padding: 0.375rem;
+  background-color: #187ef5;
+  border-radius: 0.5rem;
+}
+
+.toggle-btn {
+  padding: 0.625rem 1.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toggle-btn.active {
+  background-color: white;
+  color: rgb(17 24 39);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-btn:not(.active) {
+  background: transparent;
+  color: white;
+}
+
+.settings-icon {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+/* Main content */
+.main-content {
+  display: flex;
+  margin: 40px 65px;
+  margin-right: 0;
+  /* max-width: 1551px; */
+}
+
+/* Form section */
+
+.form-section {
+  width: 35%;
+  align-self: center;
+}
+
+.edit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-text {
+  align-self: left;
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: 600;
+  justify-items: center;
+}
+
+.generate-btn1 {
+  color: #187ef5;
+  background-color: #e7f9ff;
+  border-color: #e7f9ff;
+  padding: 1.25rem 1.5rem;
+  border: none;
+  border-radius: 0.2rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 60px;
+  width: 10rem;
+  align-self: right;
+}
+
+.generate-form {
+  padding: 3rem 4rem 1.25rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.generate-form h1 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: #187ef5;
+  margin-bottom: 1.25rem;
+}
+
+.pricing-options {
+  display: flex;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.price-tag {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 2.25rem;
+  border-radius: 0.5rem;
+  background-color: rgb(241 245 249);
+}
+
+.price-tag.active {
+  background-color: #effaff;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid rgb(229 231 235);
+  margin: 1rem 0;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+}
+
+.lang {
+  align-self: center;
+}
+
+.input-group label {
+  margin-bottom: 10px;
+}
+
+.label-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.optional {
+  color: rgb(107 114 128);
+}
+
+.input-field {
+  background-color: rgb(243 244 246);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  min-height: 60px;
+}
+
+.input-field input,
+.input-field textarea,
+.input-field select {
+  font-family: "Quicksand";
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1.125rem;
+  color: rgb(75 85 99);
+}
+
+.input-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.two-columns {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.two-columns .input-group {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.top2-input {
+  display: block;
+  margin-bottom: 22px;
+}
+/* Toggle switch */
+.toggle-section {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #187ef5;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.toggle-switch label:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.toggle-switch input:checked + label:before {
+  transform: translateX(20px);
+}
+
+/* Illustration section */
+.illustration-section {
+  width: 65%;
+  text-align: center;
+  padding: 32px;
+  /* padding-left: 200px; */
+  align-self: center;
+}
+
+.main-illustration {
+  aspect-ratio: 1.46;
+  object-fit: cover;
+  height: 330.05px;
+  width: 500.05px;
+}
+
+.illustration-section h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 2.25rem;
+  margin: 1.75rem auto;
+  max-width: 60%;
+}
+.cost {
+  margin-top: 30px;
+}
+.generate-btn {
+  padding: 1.25rem 1.5rem;
+  background-color: #187ef5;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 60px;
+  /* width: 14rem; */
+  margin: 30px 0;
+}
+
+.ai-info {
+  background-color: rgb(240 249 255);
+  border-radius: 0.75rem;
+  padding: 0.875rem 0.625rem;
+  margin: 1rem auto;
+  max-width: 540px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 1.25rem;
+  }
+
+  .main-content {
+    flex-direction: column;
+    margin: 1.25rem;
+  }
+
+  .form-section,
+  .illustration-section {
+    width: 100%;
+  }
+
+  .generate-form {
+    padding: 1.25rem;
+  }
+
+  .two-columns {
+    flex-direction: column;
+  }
+
+  .illustration-section h2,
+  .ai-info {
+    max-width: 100%;
+  }
+}
+
+/* extra */
+.input-group.lang {
+  position: relative;
+}
+
+.input-field {
+  appearance: none; /* Remove default select style */
+  padding: 10px 40px 10px 10px; /* Add space for the arrow */
+  width: 100%;
+  font-size: 18px;
+  font-family: "Quicksand";
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #ccc;
+}
+
+/* Add a custom arrow */
+.input-group.lang::after {
+  content: "";
+  position: absolute;
+  top: 58px;
+  right: 20px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #187ef5; /* Blue color */
+  pointer-events: none;
+}
+
+.options {
+  background-color: #fff;
+}

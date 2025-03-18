@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -120,7 +122,8 @@
         <div class="illustration-section">
           <h2>Continue with payment to generate your ad post</h2>
           <img
-            src="payment by card using a terminal 1.png"
+            <img
+            src="{% static 'ui_app/images/payments.png' %}"
             alt="payment illustration"
             class="main-illustration"
           />

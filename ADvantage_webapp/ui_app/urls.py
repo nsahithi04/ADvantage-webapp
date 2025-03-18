@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('adgenframe1/', views.adgenframe1, name='adgenframe1'),
-    path('adgenframe2/', views.adgenframe2, name='adgenframe2'),
+    path('ad_generator_frame/', views.ad_generator_frame, name='ad_generator_frame'),
+    path('ad_generator_payment_frame/', views.ad_generator_payment_frame, name='ad_generator_payment_frame'),
 ]

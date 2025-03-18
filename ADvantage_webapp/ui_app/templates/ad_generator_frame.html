@@ -15,7 +15,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'css/adstyle2.css' %}"
+      href="{% static 'css/ad-generator-styles.css' %}"
     />
   </head>
   <body>
@@ -47,9 +47,17 @@
       <div class="main-content">
         <div class="form-section">
           <section class="generate-form">
-            <div class="edit">
-              <p class="edit-text">Edit details</p>
-              <button class="generate-btn1">Generate</button>
+            <h1>Generate a campaign post</h1>
+
+            <div class="pricing-options">
+              <div class="price-tag active">
+                <span>Post:</span>
+                <span>₹ 50.00</span>
+              </div>
+              <div class="price-tag">
+                <span>Blog:</span>
+                <span>₹ 100.00</span>
+              </div>
             </div>
 
             <hr />
@@ -120,16 +128,13 @@
         </div>
 
         <div class="illustration-section">
-          <h2>Continue with payment to generate your ad post</h2>
           <img
-            <img
-            src="{% static 'ui_app/images/payments.png' %}"
-            alt="payment illustration"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/30b408011d20858d78c96c60cecb1cd244e2da45f22c62ec9289df695345a1ff?placeholderIfAbsent=true&apiKey=36335822f6be424f851adb745f9574f9"
+            alt="Campaign illustration"
             class="main-illustration"
           />
-          <p class="cost">Total cost</p>
-          <h1>INR 100.00</h1>
-          <button class="generate-btn">Continue to payment</button>
+          <h2>Create impactful posts for your campaigns using our AI Labs</h2>
+          <button class="generate-btn">Generate post</button>
           <p class="ai-info">
             Our AI technology uses high-efficiency LLM models which ensures
             meaningful text generation.
@@ -137,6 +142,9 @@
         </div>
       </div>
     </main>
-    <script type="text/javascript" src="{% static 'js/adjava2.js' %}"></script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/ad-generator-script.js' %}"
+    ></script>
   </body>
 </html>

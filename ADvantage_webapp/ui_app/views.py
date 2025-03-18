@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-def adgenframe1(request):
-    return render(request, 'adgenframe1.html')
+def ad_generator_frame(request):
+    return render(request, 'ad_generator_frame.html')
 
-def adgenframe2(request):
-    return render(request, 'adgenframe2.html')
+def ad_generator_payment_frame(request):
+    return render(request, 'ad_generator_payment_frame.html')

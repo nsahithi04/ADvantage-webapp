@@ -18,9 +18,13 @@ This repository contains the backend, built with Django.
 git clone https://github.com/nsahithi04/ADvantage-webapp.git
 cd ADvantage-webapp
 
+```
+
 2. **Run the Server**
+
+```bash
 python manage.py migrate
 python manage.py runserver
-Access it at http://127.0.0.1:8000/
-
 ```
+
+Access it at http://127.0.0.1:8000/

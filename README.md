@@ -1,5 +1,7 @@
 # ADvantage Backend
 
+(still in process, only initial steps are done)
+
 ## Overview
 
 ADvantage is an AI-driven ad generation platform that uses LLMs and APIs to create personalized ads.  

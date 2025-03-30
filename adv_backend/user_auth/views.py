@@ -46,7 +46,8 @@ def login_view(request):
         else:
             print(f"DEBUG: Authentication failed for {email}")
             messages.error(request, "Invalid login credentials")
-            return redirect("login")
+            return redirect("sign_in_error")
+            
     return render(request, "user_auth/login.html")
 
 
@@ -129,13 +130,64 @@ def forgot_password(request):
 
         try:
             user = User.objects.get(email=email)
-            request.session["reset_email"] = email  # ✅ Store email in session
-            return redirect("reset-password")  # ✅ Redirect to reset-password form
+            otp = random.randint(100000, 999999)
+            request.session["otp"] = otp
+            request.session["reset_email"] = email  
+
+            send_mail(
+                "Your OTP for Password Reset",
+                f"Your OTP is: {otp}",
+                "advantage.bluemelon@gmail.com",  # Replace with your email
+                [email],
+                fail_silently=False,
+            )
+
+            return redirect("forgotpw-otp")  # ✅ Redirect to reset-password form
         except User.DoesNotExist:
             messages.error(request, "No account found with this email.")
             return redirect("forgot-password")  # ✅ Stay on forgot-password page
 
     return render(request, "user_auth/forgot_password.html")
+
+def forgotpw_otp(request):
+    """
+    This view verifies the OTP entered by the user.
+    After successful OTP verification, user can reset their password.
+    """
+    if request.method == "POST":
+        # Get the entered OTP digits from the form
+        otp_entered = ''.join([request.POST.get(f"otp{i}") for i in range(1, 7)])
+        stored_otp= str(request.session.get("otp"))
+
+        if otp_entered == stored_otp:
+            # OTP is valid, redirect to reset password page
+            return redirect("reset-password")
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+            return redirect("forgotpw-otp")  # Stay on OTP page if OTP is incorrect
+
+    return render(request, "user_auth/forgotpw_otp.html")
+
+def sign_in_error(request):
+    if request.method == 'POST':
+        # Access the email and password directly from the POST data
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        # Authenticate the user
+        user = authenticate(request, username=email, password=password)
+
+        if user is not None:
+            # If authentication is successful, log the user in
+            login(request, user)
+            return redirect('dashboard')  # Redirect to the dashboard after login
+        else:
+            # If authentication fails, show an error message
+            messages.error(request, "The email address and password you entered do not match our records. Please try again.")
+    
+    return render(request, 'user_auth/sign_in_error.html')
+
+
 
 
 def dashboard(request):

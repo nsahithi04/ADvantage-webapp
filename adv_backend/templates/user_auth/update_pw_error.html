@@ -19,62 +19,66 @@
     <main class="password-update-container">
       <section class="password-update-card">
         <div class="card-container">
-          <!-- Header Section -->
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/63fcfdbd6fbcb1ec7e42c9b25d489db85cc36243?placeholderIfAbsent=true&apiKey=e38bbeeeffa044528b2b40f50824f87f"
-            alt="Company Logo"
-            class="company-logo"
-          />
+          <div class="password-update-content">
+            <!-- Header Section -->
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/63fcfdbd6fbcb1ec7e42c9b25d489db85cc36243?placeholderIfAbsent=true&apiKey=e38bbeeeffa044528b2b40f50824f87f"
+              alt="Company Logo"
+              class="company-logo"
+            />
 
-          <h1 class="page-heading">Update Password</h1>
-          <!-- <p class="instruction-text">
+            <h1 class="page-heading">Update Password</h1>
+            <!-- <p class="instruction-text">
             We've sent a 6-digit confirmation code to your email. Please enter
             the code below to verify your email.
           </p> -->
 
-          <!-- Form Section -->
-          <form method="POST">
-            <div class="error-message">
-              <p class="error-content">
-                Passwords do not match. Please ensure both password fields are
-                identical and try again.
-              </p>
-            </div>
-            {% csrf_token %}
-
-            <div class="password-field">
-              <label for="password1" class="field-label">New Password</label>
-              <div class="input-container">
-                <input
-                  type="password"
-                  id="password1"
-                  name="password1"
-                  class="password-input"
-                  required
-                />
+            <!-- Form Section -->
+            <form method="POST">
+              <div class="error-message">
+                <p class="error-content">
+                  Passwords do not match. Please ensure both password fields are
+                  identical and try again.
+                </p>
               </div>
-            </div>
+              {% csrf_token %}
 
-            <!-- Confirm Password Input -->
-            <div class="password-field error">
-              <label for="password2" class="field-label"
-                >Confirm New Password</label
-              >
-              <div class="input-container error">
-                <input
-                  type="password"
-                  id="password2"
-                  name="password2"
-                  class="password-input"
-                  required
-                />
-                <span class="error-indicator"></span>
+              <div class="password-field">
+                <label for="password1" class="field-label">New Password</label>
+                <div class="input-container">
+                  <input
+                    type="password"
+                    id="password1"
+                    name="password1"
+                    class="password-input"
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="update-button">Update Password</button>
-          </form>
+              <!-- Confirm Password Input -->
+              <div class="password-field error">
+                <label for="password2" class="field-label"
+                  >Confirm New Password</label
+                >
+                <div class="input-container error">
+                  <input
+                    type="password"
+                    id="password2"
+                    name="password2"
+                    class="password-input"
+                    required
+                  />
+                  <span class="error-indicator"></span>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="update-button">
+                Update Password
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </main>

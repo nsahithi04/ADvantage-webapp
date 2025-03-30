@@ -29,4 +29,4 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Access it at http://127.0.0.1:8000/
+Access it at http://127.0.0.1:8000/auth/signup/

@@ -29,13 +29,13 @@
             <div class="form-container">
               <div class="form-group">
                 <label class="form-label">First Name</label>
-
                 <div class="input-container">
                   <input
                     type="text"
                     name="first_name"
                     class="form-input"
                     placeholder="Add your first name"
+                    required
                   />
                 </div>
               </div>
@@ -47,6 +47,7 @@
                     name="last_name"
                     class="form-input"
                     placeholder="Add your last name"
+                    required
                   />
                 </div>
               </div>
@@ -58,17 +59,21 @@
                     name="email"
                     class="form-input"
                     placeholder="sample@email.com"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
                 <div class="checkbox-container">
                   <div class="checkbox-wrapper">
-                    <input type="checkbox" id="terms" class="checkbox-input" />
+                    <input
+                      type="checkbox"
+                      id="terms"
+                      class="checkbox-input"
+                      required
+                    />
                     <label for="terms" class="checkbox-label">
-                      I agree to all
-                      <span class="terms-link">Terms & Conditions</span> of
-                      ADvantage
+                      I agree to all the conditions of ADvantage
                     </label>
                   </div>
                 </div>
@@ -83,7 +88,7 @@
 
           <div class="login-text">
             <span class="login-prompt">Already have an account?</span>
-            <span class="login-link">SIGN IN</span>
+            <a href="{% url 'login' %}" class="login-link">SIGN IN</a>
           </div>
         </div>
       </div>

@@ -1,12 +1,10 @@
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import CustomUser 
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 def signup(request):
     if request.method == "POST":
@@ -19,10 +17,12 @@ def signup(request):
         if not email:
             return render(request, "user_auth/signup.html", {"error": "Email is required"})
 
-        if CustomUser.objects.filter(email=email).exists():
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "User already exists. Please log in.")
             return redirect("login")  # ✅ Redirect to login if user exists
 
-        user = CustomUser.objects.create(first_name=first_name, last_name=last_name, email=email)
+        # ✅ Create user without password (password will be set in reset-password)
+        user = User.objects.create(first_name=first_name, last_name=last_name, email=email)
         request.session["user_id"] = user.id  # ✅ Store user ID for password setup
 
         return redirect("reset-password")  # ✅ Redirect to set password
@@ -30,76 +30,113 @@ def signup(request):
     return render(request, "user_auth/signup.html")
 
 
-
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
-
+        
+        print(f"DEBUG: Attempting login for {email} with password {password}")
+        
         user = authenticate(request, username=email, password=password)
-        if user:
-            login(request, user)
-            return redirect("dashboard")  # Redirect to Dashboard
-        else:
-            messages.error(request, "Invalid email or password")
 
+        if user is not None:
+            print(f"DEBUG: Authentication successful for {email}")
+            login(request, user)
+            return redirect("dashboard")  # or redirect wherever you need
+        else:
+            print(f"DEBUG: Authentication failed for {email}")
+            messages.error(request, "Invalid login credentials")
+            return redirect("login")
     return render(request, "user_auth/login.html")
 
 
+
+
 def password_reset(request):
+    """
+    This view handles password reset after signup.
+    Users are redirected here after signing up to set their password.
+    """
     if request.method == "POST":
         user_id = request.session.get("user_id")
+
         if not user_id:
-            print("Session expired. Redirecting to signup...")
-            return redirect("signup")  # ✅ If session expires, go back to signup
+            messages.error(request, "Session expired. Please sign up again.")
+            return redirect("signup")  # ✅ Redirect to signup if session expires
 
         try:
-            user = CustomUser.objects.get(id=user_id)
-        except CustomUser.DoesNotExist:
-            print("User not found. Redirecting to signup...")
-            return redirect("signup")  # ✅ If user doesn't exist, go back to signup
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            messages.error(request, "User not found. Please sign up again.")
+            return redirect("signup")  # ✅ Redirect to signup if user not found
 
-        new_password = request.POST.get("password")
+        new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
 
         if new_password != confirm_password:
-            print("Passwords do not match. Redirecting to update_pw_error.html")
-            return redirect("update-pw-error")  # ✅ Redirect to password error page
+            request.session["password_reset_failed"] = True  # ✅ Store error in session
+            return redirect("update-pw-error")  # ✅ Redirect to error page
 
-        user.set_password(new_password)  # ✅ Set new password securely
+        user.set_password(new_password)
         user.save()
-        login(request, user)  # ✅ Log in the user after setting the password
+        login(request, user)  # ✅ Log in user after password reset
 
-        print("Password updated successfully. Redirecting to dashboard...")
         return redirect("dashboard")  # ✅ Redirect to Dashboard
 
     return render(request, "user_auth/reset_password.html")
 
 
 def update_pw_error(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        messages.error(request, "Session expired. Please sign up again.")
+        return redirect("signup")
+
     if request.method == "POST":
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
 
-        if password1 == password2:
-            user_id = request.session.get("user_id")  # ✅ Get user ID from session
-            if not user_id:
-                return redirect("signup")  # ✅ If session is lost, go back to signup
+        if password1 != password2:
+            messages.error(request, "Passwords do not match. Please try again.")
+            return redirect("update-pw-error")
 
-            user = CustomUser.objects.get(id=user_id)  # ✅ Fetch user by ID
-            user.set_password(password1)  # ✅ Update password securely
+        try:
+            user = User.objects.get(id=user_id)
+
+            user.set_password(password1)
             user.save()
-            login(request, user)  # ✅ Log in after updating password
-            return redirect("dashboard")  # ✅ Redirect to Dashboard
+            request.session.flush()
+            messages.success(request, "Password updated successfully! Please log in.")
+            return redirect("login")
 
-        else:
-            return render(request, "user_auth/update_pw_error.html", {"error": "Passwords do not match"})
+        except User.DoesNotExist:
+            messages.error(request, "User not found. Please sign up again.")
+            return redirect("signup")
 
     return render(request, "user_auth/update_pw_error.html")
 
 
-def create_account(request):
-    return render(request, "user_auth/create_account.html")
+
+
+def forgot_password(request):
+    """
+    This view handles 'Forgot Password' functionality.
+    Users will enter their email and receive an OTP to reset their password.
+    """
+    if request.method == "POST":
+        email = request.POST.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+            request.session["reset_email"] = email  # ✅ Store email in session
+            return redirect("reset-password")  # ✅ Redirect to reset-password form
+        except User.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+            return redirect("forgot-password")  # ✅ Stay on forgot-password page
+
+    return render(request, "user_auth/forgot_password.html")
+
 
 def dashboard(request):
     return render(request, "user_auth/dashboard.html")

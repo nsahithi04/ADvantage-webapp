@@ -27,7 +27,7 @@ body {
 
 /* Sign in card */
 .sign-in-card {
-  border-radius: 16x;
+  border-radius: 16px;
   background-color: #fff;
   box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.05);
   display: flex;

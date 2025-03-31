@@ -7,7 +7,7 @@ from django.core.wsgi import get_wsgi_application
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ADvantage_webapp.settings')  # Replace 'myproject' with your project name
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')  # Replace 'myproject' with your project name
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

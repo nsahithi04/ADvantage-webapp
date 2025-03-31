@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
-from pathlib import Path  
-
+from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent  
 
@@ -150,7 +150,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "advantage.bluemelon@gmail.com"
-EMAIL_HOST_PASSWORD = "eaas afkf zabt ypen"  
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD") 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  
 
 

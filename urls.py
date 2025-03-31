@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda request: redirect('auth/signup/')), 
     path('admin/', admin.site.urls),
     path('auth/', include('user_auth.urls')),
 ]

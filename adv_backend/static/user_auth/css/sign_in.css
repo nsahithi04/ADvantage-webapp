@@ -133,7 +133,7 @@ body {
 }
 
 /* Password toggle icon */
-.password-toggle {
+.password-toggle-login {
   aspect-ratio: 1;
   object-fit: contain;
   object-position: center;

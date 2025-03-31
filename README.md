@@ -1,6 +1,6 @@
 # ADvantage Backend
 
-still in process, only initial steps of are done (login and signup flow)
+still in process, only initial steps are done (login and signup flow)
 
 ## Overview
 

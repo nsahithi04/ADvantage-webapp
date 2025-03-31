@@ -7,7 +7,7 @@ from django.core.wsgi import get_wsgi_application
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')  # Replace with your project name
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')  # Replace 'myproject' with your project name
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -24,4 +24,4 @@ if __name__ == '__main__':
 
 # Add the app variable required for Vercel
 application = get_wsgi_application()
-app = application
+app = application  # This line exposes 'app' for Vercel

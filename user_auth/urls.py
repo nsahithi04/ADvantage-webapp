@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import signup, login_view, password_reset, forgot_password, update_pw_error, dashboard, forgotpw_otp, sign_in_error, resend_otp, forgotpw_emailerror, otp_error
 
+
 urlpatterns = [
     path("signup/", signup, name="signup"),
     path("login/", login_view, name="login"),

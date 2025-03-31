@@ -8,7 +8,6 @@ from django.core.mail import send_mail
 
 User = get_user_model()
 
-
 def signup(request):
     if request.method == "POST":
         request.session.flush()  # ✅ Clear old session data before signup

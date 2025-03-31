@@ -38,7 +38,7 @@ DEBUG = True
 
 load_dotenv()  # Load environment variables
 
-ALLOWED_HOSTS = ['advantage-eight.vercel.app']
+ALLOWED_HOSTS = ['advantage-eight.vercel.app','advantage-git-main-nsahithi04s-projects.vercel.app']
 
 
 # Application definition

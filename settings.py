@@ -38,7 +38,7 @@ DEBUG = True
 
 load_dotenv()  # Load environment variables
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'advantage-eight.vercel.app']
 
 
 # Application definition

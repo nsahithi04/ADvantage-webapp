@@ -262,9 +262,31 @@ def forgotpw_otp(request):
 
         else:
             messages.error(request, "Invalid OTP. Please try again.")
-            return redirect("forgotpw-otp")  
+            return redirect("otp-error")  
 
     return render(request, "user_auth/forgotpw_otp.html")
+
+
+def otp_error(request):
+    if request.method == "POST":
+        otp_entered = ''.join([request.POST.get(f"otp{i}") for i in range(1, 7)])
+        stored_otp = str(request.session.get("otp"))
+        email = request.session.get("reset_email")  
+
+        if otp_entered == stored_otp:
+            try:
+                user = User.objects.get(email=email)
+                request.session["user_id"] = user.id  # ✅ Store user ID in session
+                return redirect("reset-password")  # ✅ Redirect to password reset
+            except User.DoesNotExist:
+                messages.error(request, "User not found. Please sign up again.")
+                return redirect("signup")
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+            return redirect("otp-error")  # ✅ Stay on the same page if incorrect
+
+    return render(request, "user_auth/otp_error.html")
+
 
 
 

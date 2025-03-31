@@ -19,11 +19,11 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# Ensure Vercel collects static files
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -41,8 +41,7 @@ DEBUG = True
 
 load_dotenv()  # Load environment variables
 
-ALLOWED_HOSTS = ['advantage-eight.vercel.app','advantage-git-main-nsahithi04s-projects.vercel.app','advantage-f8sw0cqzb-nsahithi04s-projects.vercel.app','127.0.0.1','advantage-1nuq1k9b9-nsahithi04s-projects.vercel.app']
-
+ALLOWED_HOSTS = ['advantage-eight.vercel.app','advantage-git-main-nsahithi04s-projects.vercel.app','advantage-f8sw0cqzb-nsahithi04s-projects.vercel.app','127.0.0.1','advantage-1nuq1k9b9-nsahithi04s-projects.vercel.app','advantage-g7y8kaxq6-nsahithi04s-projects.vercel.app']
 
 # Application definition
 

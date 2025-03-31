@@ -30,7 +30,21 @@ EMAIL_HOST_PASSWORD=your_email_password
 
 ```
 
-3. **Run the Server**
+3. **Create a Virtual Environment**
+
+```bash
+python -m venv venv
+source venv/bin/activate   # For MacOS/Linux
+venv\Scripts\activate      # For Windows
+```
+
+4. **Install Dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **Run the Server**
 
 ```bash
 python manage.py migrate

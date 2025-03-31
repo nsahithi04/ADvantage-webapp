@@ -15,11 +15,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent  
+BASE_DIR = Path(__file__).resolve().parent
 
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "adv_backend", "static")]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 TEMPLATES_DIR = BASE_DIR / "templates"
 
@@ -45,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adv_backend.user_auth',
+    'user_auth',
 ]
 
 
@@ -59,12 +61,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'adv_backend.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "adv_backend", "templates")],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'adv_backend.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
@@ -116,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  
-    'adv_backend.user_auth.auth_backends.EmailBackend', 
+    'user_auth.auth_backends.EmailBackend', 
 ]
 
 
@@ -148,7 +150,7 @@ AUTH_USER_MODEL = "user_auth.CustomUser"
 
 # Initialize environment variables
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env")) 
+env.read_env(os.path.join(os.path.dirname(__file__), ".env"))
 
 # Email Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

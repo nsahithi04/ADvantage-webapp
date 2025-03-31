@@ -1,6 +1,6 @@
 # ADvantage Backend
 
-(still in process, only initial steps are done)
+still in process, only initial steps of are done (login and signup flow)
 
 ## Overview
 
@@ -22,7 +22,15 @@ cd ADvantage-webapp
 
 ```
 
-2. **Run the Server**
+2. **Create a .env file in the root directory with the following details for email configuration:**
+
+```bash
+EMAIL_HOST_USER=your_email@gmail.com
+EMAIL_HOST_PASSWORD=your_email_password
+
+```
+
+3. **Run the Server**
 
 ```bash
 python manage.py migrate

@@ -2,6 +2,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
+import random
+from django.core.mail import send_mail
+
 
 User = get_user_model()
 
@@ -51,8 +54,6 @@ def login_view(request):
     return render(request, "user_auth/login.html")
 
 
-
-
 def password_reset(request):
     """
     This view handles password reset after signup.
@@ -63,36 +64,46 @@ def password_reset(request):
 
         if not user_id:
             messages.error(request, "Session expired. Please sign up again.")
-            return redirect("signup")  # ✅ Redirect to signup if session expires
+            return redirect("signup")  # Redirect to signup if session expires
 
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
             messages.error(request, "User not found. Please sign up again.")
-            return redirect("signup")  # ✅ Redirect to signup if user not found
+            return redirect("signup")  # Redirect to signup if user not found
 
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
 
         if new_password != confirm_password:
-            request.session["password_reset_failed"] = True  # ✅ Store error in session
-            return redirect("update-pw-error")  # ✅ Redirect to error page
+            request.session["password_reset_failed"] = True  
+            return redirect("update-pw-error")  # Redirect to error page
 
+        # Reset Password
         user.set_password(new_password)
         user.save()
-        login(request, user)  # ✅ Log in user after password reset
 
-        return redirect("dashboard")  # ✅ Redirect to Dashboard
+        # Explicitly set authentication backend if multiple backends exist
+        user.backend = "django.contrib.auth.backends.ModelBackend"
+
+        # Log in user after password reset
+        login(request, user, backend=user.backend)
+
+        return redirect("login")  # Redirect to login instead of signup
 
     return render(request, "user_auth/reset_password.html")
 
 
 def update_pw_error(request):
-    user_id = request.session.get("user_id")
+    """
+    This view handles the password reset when users enter mismatched passwords.
+    It allows them to retry without restarting the process.
+    """
+    user_id = request.session.get("user_id") 
 
     if not user_id:
-        messages.error(request, "Session expired. Please sign up again.")
-        return redirect("signup")
+        messages.error(request, "Session expired. Please request a new OTP.")
+        return redirect("forgot-password")  
 
     if request.method == "POST":
         password1 = request.POST.get("password1")
@@ -100,20 +111,23 @@ def update_pw_error(request):
 
         if password1 != password2:
             messages.error(request, "Passwords do not match. Please try again.")
-            return redirect("update-pw-error")
+            return redirect("update-pw-error")  
 
         try:
             user = User.objects.get(id=user_id)
 
+            # Reset Password
             user.set_password(password1)
             user.save()
-            request.session.flush()
+
+            # Do NOT flush session immediately (retain messages)
             messages.success(request, "Password updated successfully! Please log in.")
-            return redirect("login")
+            
+            return redirect("login")  # Redirect to login page instead of signup
 
         except User.DoesNotExist:
             messages.error(request, "User not found. Please sign up again.")
-            return redirect("signup")
+            return redirect("signup")  
 
     return render(request, "user_auth/update_pw_error.html")
 
@@ -134,10 +148,34 @@ def forgot_password(request):
             request.session["otp"] = otp
             request.session["reset_email"] = email  
 
+            subject = "🔐 Reset Your Password - ADvantage"
+            message = f"""
+                Dear {user.first_name},
+
+                We received a request to reset your password for your ADvantage account. 
+                Please use the One-Time Password (OTP) below to proceed:
+
+                🔢 YOUR OTP: {otp} 
+
+                This OTP is valid for the next 10 minutes. If you did not request a password reset, 
+                please ignore this email, and your account will remain secure.
+
+                About ADvantage:  
+                ADvantage is an AI-powered ad generation platform that helps businesses create 
+                engaging and personalized advertisements using the latest trends and data.  
+
+                If you have any questions, feel free to reach out to our support team.
+
+                Best regards,  
+                The ADvantage Team  
+                advantage.bluemelon@gmail.com  
+            """
+
+
             send_mail(
-                "Your OTP for Password Reset",
-                f"Your OTP is: {otp}",
-                "advantage.bluemelon@gmail.com",  # Replace with your email
+                subject,
+                message,
+                "advantage.bluemelon@gmail.com",  # Your sender email
                 [email],
                 fail_silently=False,
             )
@@ -145,28 +183,141 @@ def forgot_password(request):
             return redirect("forgotpw-otp")  # ✅ Redirect to reset-password form
         except User.DoesNotExist:
             messages.error(request, "No account found with this email.")
-            return redirect("forgot-password")  # ✅ Stay on forgot-password page
+            return redirect("forgotpw-email-error")  
 
     return render(request, "user_auth/forgot_password.html")
 
-def forgotpw_otp(request):
-    """
-    This view verifies the OTP entered by the user.
-    After successful OTP verification, user can reset their password.
-    """
+
+def forgotpw_emailerror(request):
     if request.method == "POST":
-        # Get the entered OTP digits from the form
+        email = request.POST.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+            otp = random.randint(100000, 999999)
+            request.session["otp"] = otp
+            request.session["reset_email"] = email  
+
+            print(f"DEBUG: Email found, OTP {otp} stored for {email}")  # ✅ Check if session is stored
+
+            subject = "🔐 Reset Your Password - ADvantage"
+            message = f"""
+                Dear {user.first_name},
+
+                We received a request to reset your password for your ADvantage account. 
+                Please use the One-Time Password (OTP) below to proceed:
+
+                🔢 YOUR OTP: {otp} 
+
+                This OTP is valid for the next 10 minutes. If you did not request a password reset, 
+                please ignore this email, and your account will remain secure.
+
+                About ADvantage:  
+                ADvantage is an AI-powered ad generation platform that helps businesses create 
+                engaging and personalized advertisements using the latest trends and data.  
+
+                If you have any questions, feel free to reach out to our support team.
+
+                Best regards,  
+                The ADvantage Team  
+                advantage.bluemelon@gmail.com  
+            """
+
+            send_mail(
+                subject,
+                message,
+                "advantage.bluemelon@gmail.com",  
+                [email],
+                fail_silently=False,
+            )
+
+            print("DEBUG: Email sent successfully")  # ✅ Check if email is sent
+
+            return redirect("forgotpw-otp")  # ✅ Redirect to OTP page
+
+        except User.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+            print("DEBUG: No account found for email")  # ✅ Debug missing user
+            return render(request, "user_auth/forgotpw_emailerror.html")  
+
+    return render(request, "user_auth/forgotpw_emailerror.html")
+
+
+
+
+def forgotpw_otp(request):
+    if request.method == "POST":
         otp_entered = ''.join([request.POST.get(f"otp{i}") for i in range(1, 7)])
-        stored_otp= str(request.session.get("otp"))
+        stored_otp = str(request.session.get("otp"))
+        email = request.session.get("reset_email")  
 
         if otp_entered == stored_otp:
-            # OTP is valid, redirect to reset password page
-            return redirect("reset-password")
+            try:
+                user = User.objects.get(email=email)
+                request.session["user_id"] = user.id  # ✅ Store user ID in session
+                return redirect("reset-password")  # ✅ Redirect to password reset page
+            except User.DoesNotExist:
+                messages.error(request, "User not found. Please sign up again.")
+                return redirect("signup")
+
         else:
             messages.error(request, "Invalid OTP. Please try again.")
-            return redirect("forgotpw-otp")  # Stay on OTP page if OTP is incorrect
+            return redirect("forgotpw-otp")  
 
     return render(request, "user_auth/forgotpw_otp.html")
+
+
+
+def resend_otp(request):
+    """
+    Resends OTP without requiring the user to re-enter their email.
+    """
+    email = request.session.get("reset_email")
+
+    if not email:
+        return redirect("forgot-password")  # Redirect if session expired
+
+    try:
+        user = User.objects.get(email=email)
+        otp = random.randint(100000, 999999)
+        request.session["otp"] = otp  # Store new OTP
+
+        subject = "🔐 New OTP for Password Reset - ADvantage"
+        message = f"""
+                Dear {user.first_name},
+
+                We received a request to reset your password for your ADvantage account. 
+                Please use the One-Time Password (OTP) below to proceed:
+
+                🔢 YOUR OTP: {otp} 
+
+                This OTP is valid for the next 10 minutes. If you did not request a password reset, 
+                please ignore this email, and your account will remain secure.
+
+                About ADvantage:  
+                ADvantage is an AI-powered ad generation platform that helps businesses create 
+                engaging and personalized advertisements using the latest trends and data.  
+
+                If you have any questions, feel free to reach out to our support team.
+
+                Best regards,  
+                The ADvantage Team  
+                advantage.bluemelon@gmail.com  
+            """
+
+        send_mail(
+            subject,
+            message,
+            "advantage.bluemelon@gmail.com",  
+            [email],
+            fail_silently=False,
+        )
+
+    except User.DoesNotExist:
+        return redirect("forgot-password")  
+
+    return redirect("forgotpw-otp")
+
 
 def sign_in_error(request):
     if request.method == 'POST':
@@ -186,8 +337,6 @@ def sign_in_error(request):
             messages.error(request, "The email address and password you entered do not match our records. Please try again.")
     
     return render(request, 'user_auth/sign_in_error.html')
-
-
 
 
 def dashboard(request):

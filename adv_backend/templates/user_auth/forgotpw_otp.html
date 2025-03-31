@@ -90,7 +90,9 @@
             </form>
             <p class="resend-text">
               <span class="normal-text">Didn't receive the code?</span>
-              <span class="highlight-text">Resend code</span>
+              <a href="{% url 'resend-otp' %}" class="highlight-text"
+                >Resend code</a
+              >
             </p>
             <a href="{% url 'login' %}" class="back-link">Back to Sign In</a>
           </div>

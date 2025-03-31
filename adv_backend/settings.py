@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adv_backend.user_auth', 
+    'adv_backend.user_auth',
 ]
 
 
@@ -114,8 +114,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',  
+    'adv_backend.user_auth.auth_backends.EmailBackend', 
 ]
+
 
 
 # Internationalization
@@ -141,4 +143,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "user_auth.CustomUser"
+
+# Email Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "advantage.bluemelon@gmail.com"
+EMAIL_HOST_PASSWORD = "eaas afkf zabt ypen"  
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  
+
+
 

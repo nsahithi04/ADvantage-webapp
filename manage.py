@@ -1,14 +1,11 @@
 import os
-import sys
-
-# Add the current directory to the PYTHONPATH
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
-
+import sys  # Add this line
 import django
 from django.core.wsgi import get_wsgi_application
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+
 
 def main():
     """Run administrative tasks."""
@@ -25,6 +22,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 # Vercel needs the application variable to point to the WSGI app
 application = get_wsgi_application()

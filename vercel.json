@@ -4,24 +4,15 @@
     {
       "src": "manage.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "static/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
     {
       "src": "/(.*)",
       "dest": "manage.py"
     }
   ],
-
   "env": {
-    "DJANGO_SETTINGS_MODULE": ".settings"
+    "DJANGO_SETTINGS_MODULE": "settings"
   }
 }

@@ -20,7 +20,8 @@
       "dest": "manage.py"
     }
   ],
+
   "env": {
-    "DJANGO_SETTINGS_MODULE": "ADvantage_webapp.settings"
+    "DJANGO_SETTINGS_MODULE": ".settings"
   }
 }

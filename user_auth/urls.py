@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup, login_view, password_reset, forgot_password, update_pw_error, dashboard, forgotpw_otp, sign_in_error, resend_otp, forgotpw_emailerror, otp_error
+from .views import signup, login_view, password_reset, forgot_password, update_pw_error, dashboard, forgotpw_otp, sign_in_error, resend_otp, forgotpw_emailerror, otp_error, mainpage, generate_campaign
 
 
 urlpatterns = [
@@ -14,4 +14,6 @@ urlpatterns = [
     path("dashboard/", dashboard, name="dashboard"),
     path('sign-in-error/', sign_in_error, name='sign_in_error'),
     path("otp-error/", otp_error, name="otp-error"),
+    path('mainpage/', mainpage, name='mainpage'),
+    path('generate_campaign/', generate_campaign, name='generate_campaign'),
 ]

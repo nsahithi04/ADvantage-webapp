@@ -74,7 +74,11 @@
         </section>
 
         <footer class="action-container">
-          <button class="get-started-button">Get Started</button>
+          <form action="{% url 'mainpage' %}" method="get">
+            <button class="get-started-button" type="submit">
+              Get Started
+            </button>
+          </form>
         </footer>
       </section>
     </main>

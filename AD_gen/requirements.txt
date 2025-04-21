@@ -1,0 +1,12 @@
+tweepy
+psycopg2-binary
+python-dotenv
+selenium webdriver-manager
+bs4
+transformers
+serpapi
+google-search-results
+torch 
+newspaper3k
+psycopg2
+openai==1.0.0

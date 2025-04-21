@@ -26,3 +26,4 @@ if __name__ == '__main__':
 
 # Vercel needs the application variable to point to the WSGI app
 application = get_wsgi_application()
+app = application

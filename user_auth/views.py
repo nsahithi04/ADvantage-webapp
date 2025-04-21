@@ -4,7 +4,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 import random
 from django.core.mail import send_mail
-
+from .models import AdRequest
+from .forms import AdRequestForm
+import logging
+import os
+from django.conf import settings 
+import subprocess
 
 User = get_user_model()
 
@@ -363,3 +368,73 @@ def sign_in_error(request):
 def dashboard(request):
     return render(request, "user_auth/dashboard.html")
 
+
+def mainpage(request):
+    if request.method == "POST":
+        form = AdRequestForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save form data to DB
+            ad_request = form.save()
+
+            # Prepare data to pass to ad_generator.py
+            product_name = ad_request.product
+            description = ad_request.description
+
+            # Path to the script
+            script_path = os.path.join(settings.BASE_DIR, 'AD_gen', 'ad_generator.py')
+
+            # Call the script via subprocess (pass the arguments to the script)
+            command = ['python', script_path, product_name, description]
+            result = subprocess.run(command, capture_output=True, text=True)
+
+            # Return the result (if successful, capture stdout; otherwise capture stderr)
+            if result.returncode == 0:
+                output = result.stdout.strip()  # Remove any extra spaces/newlines
+            else:
+                output = f"Error: {result.stderr.strip()}"
+
+            # Pass the result to the template
+            return render(request, "user_auth/mainpage1.html", {
+                "form": form, 
+                "result": output,
+                "campaign": ad_request  # Pass the ad request for display
+            })
+    else:
+        form = AdRequestForm()
+
+    return render(request, "user_auth/mainpage.html", {"form": form})
+
+
+# View for generate_campaign (this is another page where the user can generate an ad)
+def generate_campaign(request):
+    if request.method == 'POST':
+        form = AdRequestForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the form data to the database
+            ad_request = form.save()
+
+            # Get input data from the form
+            product_name = ad_request.product
+            product_description = ad_request.description
+
+            # Path to your ad_generator.py
+            script_path = os.path.join(settings.BASE_DIR, 'AD_gen', 'ad_generator.py')
+
+            # Call the ad_generator.py script via subprocess
+            command = ['python', script_path, product_name, product_description]
+            result = subprocess.run(command, capture_output=True, text=True)
+
+            # Updated parsing logic
+            if result.returncode == 0:
+                raw_lines = result.stdout.strip().split('\n')
+                ads = []
+
+                for line in raw_lines:
+                    line = line.strip()
+                    if line:
+                        ads.append({'trend': None, 'ad_content': line})  # Treat each line as ad
+
+                return render(request, 'user_auth/mainpage1.html', {'form': form, 'result': ads})
+            else:
+                error_output = result.stderr
+                return render(request, 'user_auth/mainpage1.html', {'form': form, 'result': [], 'error': error_output})

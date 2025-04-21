@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'user_auth/css/adstyle1.css' %}" />
+  </head>
+  <body>
+    <main class="generate-home">
+      <header class="header">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/31245c260512d27975a8915bb3952f9ffb927a2ba4b6dbf7e87708b7179ecb18"
+          alt="Logo"
+          class="logo"
+        />
+        <nav class="nav-menu">
+          <span class="nav-item active">Generate</span>
+          <span class="nav-item">History</span>
+          <span class="nav-item">Account</span>
+        </nav>
+        <div class="user-controls">
+          <div class="user-toggle">
+            <button class="toggle-btn active">User</button>
+            <button class="toggle-btn">Admin</button>
+          </div>
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/647022f4aa7569d0e97dd6c4892abed130ac0e52dcde0805db5eea950c08f2e3"
+            alt="Settings"
+            class="settings-icon"
+          />
+        </div>
+      </header>
+
+      <div class="main-content">
+        <div class="form-section">
+          <section class="generate-form">
+            <h1>Generate a campaign post</h1>
+            <hr />
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="input-group">
+                <label class="top2-input">Product / Topic</label>
+                <div class="input-field">
+                  <input
+                    type="text"
+                    name="product"
+                    placeholder="Add a product, event, campaign"
+                    value="{{ form.product.value }}"  
+                    required
+                  />
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="top2-input">Description</label>
+                <div class="input-field">
+                  <textarea
+                    name="description"
+                    placeholder="Add a date, time, location or anything else"
+                    required
+                  >{{ form.description.value }}</textarea>  <!-- Retaining input -->
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="top2-input">Remarks</label>
+                <div class="input-field">
+                  <textarea
+                    name="remarks"
+                    placeholder="Add any Remarks"
+                  >{{ form.remarks.value }}</textarea>  <!-- Retaining input -->
+                </div>
+              </div>
+
+              <div class="tone-scope-group">
+                <div class="input-group">
+                  <label class="top2-input">Tone of the Ad</label>
+                  <div class="input-field">
+                    <select name="tone" required>
+                      <!-- prettier-ignore -->
+                      <option value="casual" {% if form.tone.value == 'casual' %}selected="selected"{% endif %}>Casual</option>
+                      <option value="formal" {% if form.tone.value == 'formal' %}selected="selected"{% endif %}>Formal</option>
+                      <option value="gen-z" {% if form.tone.value == 'gen-z' %}selected="selected"{% endif %}>Gen-z</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label class="top2-input">Scope Level</label>
+                  <div class="input-field">
+                    <select name="scope" required>
+                      <option value="local" {% if form.scope.value == 'local' %}selected{% endif %}>Local</option>
+                      <option value="global" {% if form.scope.value == 'global' %}selected{% endif %}>Global</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="custom-file-upload">
+                <label class="top2-input">Upload CSV File</label>
+                <div class="input-field">
+                  <label for="fileInput" class="file-label">Choose File</label>
+                  <input
+                    type="file"
+                    name="csv_file"
+                    id="fileInput"
+                    accept=".csv"
+                    onchange="updateFileName()"
+                  />
+                  <span class="file-name" id="fileName">{{ form.csv_file.value }}</span> <!-- Retaining input -->
+                </div>
+              </div>
+
+              <div class="toggle-section">
+                <span>Include hashtags</span>
+                <div class="toggle-switch">
+                  <input
+                    type="checkbox"
+                    name="include_hashtags"
+                    id="hashtags"
+                    {% if form.include_hashtags.value %}checked{% endif %}
+                  />
+                  <label for="hashtags"></label>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <div class="label-group">
+                  <label>Company name</label>
+                  <span class="optional">Optional</span>
+                </div>
+                <div class="input-field">
+                  <input
+                    type="text"
+                    name="company_name"
+                    placeholder="Add company name"
+                    value="{{ form.company_name.value }}" 
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="generate-btn">Generate post</button>
+            </form>
+          </section>
+        </div>
+
+        <div class="illustration-section">
+          {% if result %}
+              <div class="generated-ads">
+                  <h2>Generated Ads:</h2>
+                  <div class="ad-content1">
+                      {% for ad in result.splitlines %}
+                          <p class="ad-content">{{ ad }}</p>
+                      {% endfor %}
+                  </div>
+              </div>
+          {% else %}
+              <p>No ads available</p>
+          {% endif %}
+      </div>
+      </div>
+    </main>
+
+    <script src="{% static 'user_auth/js/adjava.js' %}"></script>
+  </body>
+</html>

@@ -48,3 +48,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         """Returns the first name of the user."""
         return self.first_name
+
+
+class AdRequest(models.Model):
+    product = models.CharField(max_length=255)
+    description = models.TextField()
+    remarks = models.TextField(blank=True, null=True)
+    tone = models.CharField(max_length=50)
+    scope = models.CharField(max_length=50)
+    csv_file = models.FileField(upload_to='csvs/', blank=True, null=True)
+    include_hashtags = models.BooleanField(default=False)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.product

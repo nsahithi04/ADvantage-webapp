@@ -16,7 +16,7 @@ This repository contains the backend, built with Django.
 
 ## Project Structure
 
-````plaintext
+```plaintext
 ├── AD_gen/                  # Ad generation scripts and agents
 ├── user_auth/               # Django app for user authentication
 ├── static/                  # CSS and JS files
@@ -26,6 +26,7 @@ This repository contains the backend, built with Django.
 ├── requirements.txt         # Required dependencies
 └── README.md                # You're here!
 
+```
 
 ## How to Run
 
@@ -43,6 +44,8 @@ This repository contains the backend, built with Django.
    ```bash
    git clone https://github.com/nsahithi04/ADvantage-webapp/tree/main
    cd ADvantage
+   ```
+
 ````
 
 2. **Create a virtual environment**
@@ -125,3 +128,4 @@ Contains the core Django app for:
 - Finalize the front-end flow if hosted.
 
 ---
+````

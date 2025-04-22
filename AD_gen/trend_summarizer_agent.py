@@ -1,10 +1,10 @@
 import os
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = os.getenv("OPENAI_API_KEY")
 
 def summarize_trend(trend_name, search_summary):
     prompt = (

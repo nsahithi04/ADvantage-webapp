@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
 def fetch_top_trends(limit=5):
     conn = psycopg2.connect(
         dbname=os.getenv("DB_NAME"),
@@ -24,10 +23,13 @@ def fetch_top_trends(limit=5):
         LIMIT %s;
     """, (limit,))
 
+
+
     results = cursor.fetchall()
     cursor.close()
     conn.close()
     return results
+
 
 
 
@@ -75,8 +77,6 @@ if __name__ == "__main__":
     trends = fetch_top_trends()  # Fetch top trends
     ads = generate_ads(product_name, product_description, trends)
 
-    # Clean the ads to remove incomplete entries
-# Clean the ads to remove incomplete entries
 cleaned_ads = []
 for ad in ads:
     trend = ad.get('trend', '').strip()

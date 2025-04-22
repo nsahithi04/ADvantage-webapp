@@ -46,8 +46,6 @@ This repository contains the backend, built with Django.
    cd ADvantage
    ```
 
-````
-
 2. **Create a virtual environment**
 
    ```bash
@@ -128,4 +126,3 @@ Contains the core Django app for:
 - Finalize the front-end flow if hosted.
 
 ---
-````
